@@ -1,0 +1,10 @@
+@use 'styles/variables' as vars;
+
+.app-layout {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+
+  &__content {
+    padding: vars.$spacing-xl;
+  }
+}

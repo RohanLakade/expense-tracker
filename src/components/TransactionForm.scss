@@ -1,0 +1,70 @@
+@use "styles/variables" as vars;
+
+.transaction-form-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.transaction-form {
+  background-color: var(--color-surface);
+  border-radius: vars.$radius;
+  padding: vars.$spacing-xl;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: var(--shadow-card);
+
+  h2 {
+    margin: 0 0 vars.$spacing-lg 0;
+    font-size: 1.2rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: vars.$spacing-md;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+
+    input,
+    select {
+      display: block;
+      width: 100%;
+      margin-top: vars.$spacing-sm;
+      padding: vars.$spacing-sm;
+      border: 1px solid var(--color-border);
+      border-radius: vars.$radius;
+      font-size: 0.9rem;
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: vars.$spacing-sm;
+    margin-top: vars.$spacing-lg;
+
+    button {
+      padding: vars.$spacing-sm vars.$spacing-md;
+      border: none;
+      border-radius: vars.$radius;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    button[type="submit"] {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
+
+    button[type="button"] {
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+    }
+  }
+}

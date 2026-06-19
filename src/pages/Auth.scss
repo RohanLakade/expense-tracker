@@ -1,0 +1,71 @@
+@use 'styles/variables' as vars;
+
+.login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+  padding: vars.$spacing-lg;
+
+  &__card {
+    width: 100%;
+    max-width: 360px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: vars.$radius;
+    box-shadow: var(--shadow-card);
+    padding: vars.$spacing-xl;
+  }
+
+  h1 {
+    margin: 0 0 vars.$spacing-lg 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-md;
+  }
+
+  input {
+    padding: vars.$spacing-sm;
+    border: 1px solid var(--color-border);
+    border-radius: vars.$radius;
+    font-size: 0.9rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+
+  button[type='submit'] {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    border: none;
+    border-radius: vars.$radius;
+    background-color: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: vars.$spacing-sm;
+  }
+
+  &__error {
+    color: var(--color-expense);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  &__switch {
+    margin-top: vars.$spacing-lg;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+  }
+}

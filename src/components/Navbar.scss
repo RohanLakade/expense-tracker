@@ -1,0 +1,115 @@
+@use 'styles/variables' as vars;
+@use 'styles/mixins' as mix;
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: vars.$spacing-md;
+  padding: vars.$spacing-md vars.$spacing-xl;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+
+  @include mix.responsive(tablet) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: vars.$spacing-md;
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__brand {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  &__menu-toggle {
+    display: none;
+    border: none;
+    background: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--color-text-primary);
+
+    @include mix.responsive(tablet) {
+      display: flex;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    gap: vars.$spacing-md;
+
+    @include mix.responsive(tablet) {
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: vars.$spacing-md;
+
+      &--open {
+        display: flex;
+      }
+    }
+  }
+
+  &__links {
+    display: flex;
+    gap: vars.$spacing-lg;
+
+    @include mix.responsive(tablet) {
+      flex-direction: column;
+      gap: vars.$spacing-sm;
+    }
+
+    a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+
+    @include mix.responsive(tablet) {
+      margin-top: vars.$spacing-sm;
+    }
+  }
+
+  &__theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: vars.$radius;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+
+  &__logout {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    border: none;
+    border-radius: vars.$radius;
+    background-color: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+}

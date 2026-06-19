@@ -1,0 +1,37 @@
+@use 'variables' as vars;
+
+:root {
+  --color-bg: #f5f6fa;
+  --color-surface: #ffffff;
+  --color-border: #e2e4e9;
+  --color-text-primary: #1a1d23;
+  --color-text-secondary: #6b7280;
+  --color-income: #16a34a;
+  --color-expense: #dc2626;
+  --color-primary: #2563eb;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] {
+  --color-bg: #0f1115;
+  --color-surface: #1a1d23;
+  --color-border: #2a2e37;
+  --color-text-primary: #e5e7eb;
+  --color-text-secondary: #9ca3af;
+  --color-income: #4ade80;
+  --color-expense: #f87171;
+  --color-primary: #3b82f6;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

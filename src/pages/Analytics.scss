@@ -1,0 +1,39 @@
+@use "styles/variables" as vars;
+@use "styles/mixins" as mix;
+
+.analytics {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: vars.$spacing-xl;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: vars.$spacing-lg;
+
+    @include mix.responsive(tablet) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: vars.$radius;
+    box-shadow: var(--shadow-card);
+    padding: vars.$spacing-lg;
+
+    h2 {
+      margin: 0 0 vars.$spacing-md 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__card--wide {
+    margin-top: vars.$spacing-lg;
+  }
+}
