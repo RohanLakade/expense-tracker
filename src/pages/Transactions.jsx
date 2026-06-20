@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ExcelJS from "exceljs/dist/exceljs.min.js";
 import {
   selectTransactions,
   deleteTransaction,
@@ -153,6 +154,105 @@ function Transactions() {
     dispatch(deleteTransaction(id));
   };
 
+  const getDateRangeLabel = () => {
+    if (dateRange === "all") return "All Time";
+    if (dateRange === "1m") return "Last 1 Month";
+    if (dateRange === "3m") return "Last 3 Months";
+    if (dateRange === "6m") return "Last 6 Months";
+    if (dateRange === "1y") return "Last Year";
+    if (dateRange === "custom") return `Custom: ${customStart} to ${customEnd}`;
+    return "All Time";
+  };
+
+  const handleExport = async () => {
+    const workbook = new ExcelJS.Workbook();
+
+    const summarySheet = workbook.addWorksheet("Summary");
+
+    const summaryRows = [
+      ["Date Range", getDateRangeLabel()],
+      ["Total Income", filteredTotals.income],
+      ["Total Expense", filteredTotals.expense],
+      ["Net Savings", savings],
+    ];
+
+    summaryRows.forEach(([label, value]) => {
+      const row = summarySheet.addRow([label, value]);
+      row.getCell(1).font = { bold: true };
+    });
+
+    summarySheet.addRow([]);
+
+    const monthlyHeaderRow = summarySheet.addRow([
+      "Month",
+      "Income",
+      "Expense",
+      "Savings",
+    ]);
+    monthlyHeaderRow.font = { bold: true };
+
+    const monthlyBreakdown = {};
+    filteredTransactions.forEach((t) => {
+      const month = t.date.slice(0, 7);
+      if (!monthlyBreakdown[month]) {
+        monthlyBreakdown[month] = { income: 0, expense: 0 };
+      }
+      monthlyBreakdown[month][t.type] += t.amount;
+    });
+
+    Object.keys(monthlyBreakdown)
+      .sort()
+      .forEach((month) => {
+        const { income, expense } = monthlyBreakdown[month];
+        const label = new Date(`${month}-01`).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        });
+        summarySheet.addRow([label, income, expense, income - expense]);
+      });
+
+    summarySheet.columns.forEach((column) => {
+      column.width = 18;
+    });
+
+    const transactionsSheet = workbook.addWorksheet("Transactions");
+    const headerRow = transactionsSheet.addRow([
+      "Date",
+      "Type",
+      "Category",
+      "Description",
+      "Amount",
+    ]);
+    headerRow.font = { bold: true };
+
+    filteredTransactions.forEach((t) => {
+      transactionsSheet.addRow([
+        t.date,
+        t.type,
+        t.category,
+        t.description,
+        t.amount,
+      ]);
+    });
+
+    transactionsSheet.columns.forEach((column) => {
+      column.width = 18;
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `transactions-${new Date().toISOString().slice(0, 10)}.xlsx`;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   const toggleSortOrder = () => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
@@ -161,7 +261,15 @@ function Transactions() {
     <div className="transactions">
       <div className="transactions__header">
         <h1>Transactions</h1>
-        <button onClick={handleAddClick}>Add Transaction</button>
+        <div className="transactions__header-actions">
+          <button
+            onClick={handleExport}
+            disabled={filteredTransactions.length === 0}
+          >
+            Export to Excel
+          </button>
+          <button onClick={handleAddClick}>Add Transaction</button>
+        </div>
       </div>
 
       <div className="transactions__controls">

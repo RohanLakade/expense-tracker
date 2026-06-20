@@ -13,6 +13,11 @@
       font-weight: 600;
     }
 
+    &-actions {
+      display: flex;
+      gap: vars.$spacing-sm;
+    }
+
     button {
       padding: vars.$spacing-sm vars.$spacing-md;
       border: none;
@@ -21,6 +26,11 @@
       color: #fff;
       cursor: pointer;
       font-size: 0.9rem;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 
