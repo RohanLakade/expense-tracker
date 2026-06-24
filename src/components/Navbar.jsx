@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi'
+import { FiSun, FiMoon, FiMenu, FiX, FiHelpCircle } from 'react-icons/fi'
 import { logout } from '@/features/auth/authSlice'
 import { clearTransactions } from '@/features/transactions/transactionsSlice'
 import { clearCategories } from '@/features/categories/categoriesSlice'
 import { clearPreferences, toggleDarkMode, selectDarkMode } from '@/features/preferences/preferencesSlice'
+import DemoInfoModal from './DemoInfoModal'
 import './Navbar.scss'
 
 function Navbar() {
@@ -13,6 +14,7 @@ function Navbar() {
   const navigate = useNavigate()
   const darkMode = useSelector(selectDarkMode)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isInfoOpen, setIsInfoOpen] = useState(false)
 
   const handleLogout = () => {
     dispatch(logout())
@@ -45,6 +47,9 @@ function Navbar() {
         </div>
 
         <div className="navbar__actions">
+          <button className="navbar__info-toggle" onClick={() => setIsInfoOpen(true)} aria-label="About this app">
+            <FiHelpCircle />
+          </button>
           <button className="navbar__theme-toggle" onClick={() => dispatch(toggleDarkMode())}>
             {darkMode ? <FiSun /> : <FiMoon />}
           </button>
@@ -53,6 +58,8 @@ function Navbar() {
           </button>
         </div>
       </div>
+
+      {isInfoOpen && <DemoInfoModal onClose={() => setIsInfoOpen(false)} />}
     </nav>
   )
 }

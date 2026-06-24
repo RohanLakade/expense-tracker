@@ -6,30 +6,32 @@ import { loadTransactions } from "@/features/transactions/transactionsSlice";
 import { loadCategories } from "@/features/categories/categoriesSlice";
 import { loadPreferences } from "@/features/preferences/preferencesSlice";
 import { findUserByEmail, createUser } from "@/utils/userStorage";
+import DemoInfoModal from "@/components/DemoInfoModal";
 import "./Auth.scss";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
- const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     if (findUserByEmail(email)) {
-      setError('An account with this email already exists')
-      return
+      setError("An account with this email already exists");
+      return;
     }
 
-    const newUser = createUser({ email, password })
-    dispatch(login(email))
-    dispatch(loadTransactions(newUser.transactions))
-    dispatch(loadCategories(newUser.categories))
-    dispatch(loadPreferences(newUser.preferences))
-    navigate('/dashboard')
-  }
+    const newUser = createUser({ email, password });
+    dispatch(login(email));
+    dispatch(loadTransactions(newUser.transactions));
+    dispatch(loadCategories(newUser.categories));
+    dispatch(loadPreferences(newUser.preferences));
+    navigate("/dashboard");
+  };
 
   return (
     <div className="login">
@@ -57,6 +59,14 @@ function Register() {
           Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
+      <p className="login__demo-note">
+        This is a portfolio demo — data is stored only in this browser.{" "}
+        <button type="button" onClick={() => setIsInfoOpen(true)}>
+          Learn more
+        </button>
+      </p>
+
+      {isInfoOpen && <DemoInfoModal onClose={() => setIsInfoOpen(false)} />}
     </div>
   );
 }

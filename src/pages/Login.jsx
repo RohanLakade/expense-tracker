@@ -6,12 +6,14 @@ import { loadTransactions } from "@/features/transactions/transactionsSlice";
 import { loadCategories } from "@/features/categories/categoriesSlice";
 import { loadPreferences } from "@/features/preferences/preferencesSlice";
 import { findUserByEmail } from "@/utils/userStorage";
+import DemoInfoModal from "@/components/DemoInfoModal";
 import "./Auth.scss";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -57,7 +59,15 @@ function Login() {
         <p className="login__switch">
           Don't have an account? <Link to="/register">Register</Link>
         </p>
+        <p className="login__demo-note">
+          This is a portfolio demo — data is stored only in this browser.{" "}
+          <button type="button" onClick={() => setIsInfoOpen(true)}>
+            Learn more
+          </button>
+        </p>
       </div>
+
+      {isInfoOpen && <DemoInfoModal onClose={() => setIsInfoOpen(false)} />}
     </div>
   );
 }
