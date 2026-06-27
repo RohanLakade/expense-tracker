@@ -58,13 +58,13 @@ function Register() {
         <p className="login__switch">
           Already have an account? <Link to="/">Login</Link>
         </p>
+        <p className="login__demo-note">
+          This is a portfolio demo — data is stored only in this browser.{" "}
+          <button type="button" onClick={() => setIsInfoOpen(true)}>
+            Learn more
+          </button>
+        </p>
       </div>
-      <p className="login__demo-note">
-        This is a portfolio demo — data is stored only in this browser.{" "}
-        <button type="button" onClick={() => setIsInfoOpen(true)}>
-          Learn more
-        </button>
-      </p>
 
       {isInfoOpen && <DemoInfoModal onClose={() => setIsInfoOpen(false)} />}
     </div>
